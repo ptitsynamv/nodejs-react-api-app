@@ -1,0 +1,14 @@
+{
+  "posts": [
+    {
+      "_id": "id_1",
+      "title": "First Post",
+      "content": "This is the first post!",
+      "imageUrl": "images/cat.jpg",
+      "creator": {
+        "name": "my-name"
+      },
+      "createdAt": "2024-04-11T06:09:18.322Z"
+    }
+  ]
+}

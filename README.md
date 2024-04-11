@@ -16,4 +16,10 @@ NodeJS v20.11.0, NPM v10.2.4
 2. `npm i`
 3. `npm start`. Open http://localhost:3000
 
+### Server
+
+1. `cd .\server`
+2. `npm i`
+3. `npm start`. Open http://localhost:3001
+
 ## Dependencies
