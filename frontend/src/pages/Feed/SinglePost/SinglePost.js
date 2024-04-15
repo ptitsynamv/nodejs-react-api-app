@@ -22,6 +22,8 @@ class SinglePost extends Component {
         return res.json();
       })
       .then((resData) => {
+        console.log('imageUrl', resData.post.imageUrl);
+
         this.setState({
           title: resData.post.title,
           author: resData.post.creator.name,

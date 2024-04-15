@@ -1,13 +1,34 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const multer = require('multer');
 
 const feedRoutes = require('./routes/feed');
 
 const app = express();
 
+const fileStorage = multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, './images');
+  },
+  filename: function (req, file, callback) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+    const [filename, extension] = file.originalname.split('.');
+    callback(null, filename + '-' + uniqueSuffix + '.' + extension);
+  },
+});
+const fileFilter = (req, file, callback) => {
+  callback(
+    null,
+    file.mimetype === 'image/png' ||
+      file.mimetype === 'image/jpg' ||
+      file.mimetype === 'image/jpeg'
+  );
+};
+
 // app.use(bodyParser.urlencoded()); // x-www-form-urlencoded <form>
 app.use(bodyParser.json()); // application/json
+app.use(multer({ storage: fileStorage, fileFilter }).single('image'));
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use((req, res, next) => {

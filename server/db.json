@@ -9,36 +9,6 @@
         "name": "my-name"
       },
       "createdAt": "2024-04-11T06:09:18.322Z"
-    },
-    {
-      "id": "88dd",
-      "title": "TITLE 2",
-      "imageUrl": "images/cat.jpg",
-      "content": "CONTENT 2",
-      "creator": {
-        "name": "my-name"
-      },
-      "createdAt": "2024-04-11T07:50:30.151Z"
-    },
-    {
-      "id": "c973",
-      "title": "TITLE 3",
-      "imageUrl": "images/cat.jpg",
-      "content": "CONTENT 3",
-      "creator": {
-        "name": "my-name"
-      },
-      "createdAt": "2024-04-11T07:50:53.886Z"
-    },
-    {
-      "id": "4d1f",
-      "title": "TITLE 4",
-      "imageUrl": "images/cat.jpg",
-      "content": "CONTENT 4",
-      "creator": {
-        "name": "my-name"
-      },
-      "createdAt": "2024-04-11T07:53:59.520Z"
     }
   ]
 }
