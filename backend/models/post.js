@@ -12,11 +12,7 @@ module.exports = class Post {
       method: 'POST',
       body: JSON.stringify(this),
       headers: { 'Content-Type': 'application/json' },
-    })
-      .then((res) => res.json())
-      .catch((err) => {
-        console.log({ err });
-      });
+    }).then((res) => res.json());
   }
 
   static fetchAll() {
