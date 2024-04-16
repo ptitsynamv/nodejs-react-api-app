@@ -3,10 +3,25 @@ const fs = require('fs');
 const path = require('path');
 const Post = require('../models/post');
 
+const ITEMS_PER_PAGE = 2;
+
+function getItemsForPage(items, page) {
+  const skip = (page - 1) * ITEMS_PER_PAGE;
+  const limit = ITEMS_PER_PAGE;
+  return items.slice(skip, skip + limit);
+}
+
 exports.getPosts = (req, res, next) => {
+  const page = req.query.page || 1;
+
   Post.fetchAll()
     .then((posts) => {
-      return res.status(200).json({ posts });
+      return res
+        .status(200)
+        .json({
+          posts: getItemsForPage(posts, page),
+          totalItems: posts.length,
+        });
     })
     .catch((err) => {
       if (!err.statusCode) {

@@ -9,6 +9,45 @@
         "name": "my-name"
       },
       "createdAt": "2024-04-11T06:09:18.322Z"
+    },
+    {
+      "id": "930f",
+      "title": "TITLE 2",
+      "imageUrl": "images/cat-1713191564734-665706404.jpg",
+      "content": "CONTENT 2",
+      "creator": {
+        "name": "my-name"
+      },
+      "createdAt": "2024-04-15T14:32:44.751Z"
+    },
+    {
+      "id": "85be",
+      "title": "TITLE 3",
+      "imageUrl": "images/deer-1713191573383-360552914.png",
+      "content": "CONTENT 3",
+      "creator": {
+        "name": "my-name"
+      },
+      "createdAt": "2024-04-15T14:32:53.387Z"
+    }
+  ],
+  "users": [
+    {
+      "id": "user_1",
+      "email": "email@email.com",
+      "password": "my-password",
+      "name": "my-name",
+      "status": "status",
+      "posts": [
+        "id_1"
+      ]
+    },
+    {
+      "id": "64ad",
+      "email": "email2@email.com",
+      "name": "name-2",
+      "password": "$2a$12$jaBjin1cH.c8gw/kxXmmjOzc/bNNc7V/I2NYxe4QFbkyFKjL2HDRm",
+      "status": "Im new"
     }
   ]
 }
