@@ -33,19 +33,9 @@
   ],
   "users": [
     {
-      "id": "user_1",
-      "email": "email@email.com",
-      "password": "my-password",
-      "name": "my-name",
-      "status": "status",
-      "posts": [
-        "id_1"
-      ]
-    },
-    {
       "id": "64ad",
-      "email": "email2@email.com",
-      "name": "name-2",
+      "email": "email@email.com",
+      "name": "name",
       "password": "$2a$12$jaBjin1cH.c8gw/kxXmmjOzc/bNNc7V/I2NYxe4QFbkyFKjL2HDRm",
       "status": "Im new"
     }

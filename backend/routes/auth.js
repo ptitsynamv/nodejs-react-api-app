@@ -12,9 +12,7 @@ router.put(
       .isEmail()
       .withMessage('Enter valid email')
       .custom((value, { req }) => {
-        console.log({ value });
         return User.findByEmail(value).then(([user]) => {
-          console.log({ user });
           if (user) {
             return Promise.reject('Email already exists');
           }
@@ -24,7 +22,9 @@ router.put(
     body('password').trim().isLength({ min: 1 }),
     body('name').trim().not().isEmpty(),
   ],
-  authController.singup
+  authController.signup
 );
+
+router.post('/login', authController.login);
 
 module.exports = router;
