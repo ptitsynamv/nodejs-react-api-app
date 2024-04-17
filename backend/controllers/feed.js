@@ -2,8 +2,9 @@ const { validationResult } = require('express-validator');
 const fs = require('fs');
 const path = require('path');
 const Post = require('../models/post');
+const User = require('../models/user');
 
-const ITEMS_PER_PAGE = 2;
+const ITEMS_PER_PAGE = 10;
 
 function getItemsForPage(items, page) {
   const skip = (page - 1) * ITEMS_PER_PAGE;
@@ -16,12 +17,10 @@ exports.getPosts = (req, res, next) => {
 
   Post.fetchAll()
     .then((posts) => {
-      return res
-        .status(200)
-        .json({
-          posts: getItemsForPage(posts, page),
-          totalItems: posts.length,
-        });
+      return res.status(200).json({
+        posts: getItemsForPage(posts, page),
+        totalItems: posts.length,
+      });
     })
     .catch((err) => {
       if (!err.statusCode) {
@@ -46,18 +45,34 @@ exports.createPost = (req, res, next) => {
 
   const { title, content } = req.body;
   const { path: imageUrl } = req.file;
+  let creator;
+  let newPost;
 
   new Post({
     title,
     content,
     imageUrl,
-    creator: {
-      name: 'my-name',
-    },
+    creator: req.userId,
   })
     .save()
     .then((post) => {
-      return res.status(201).json({ post });
+      newPost = post;
+      return User.findById(req.userId);
+    })
+    .then((user) => {
+      creator = user;
+
+      const updatedUser = new User({
+        ...user,
+        posts: [...user.posts, newPost.id],
+      });
+      return updatedUser.update();
+    })
+    .then((result) => {
+      return res.status(201).json({
+        post: newPost,
+        creator: { id: creator.id, name: creator.name },
+      });
     })
     .catch((err) => {
       if (!err.statusCode) {
@@ -116,6 +131,12 @@ exports.updatePost = (req, res, next) => {
         error.statusCode = 404;
         throw error;
       }
+      if (post.creator !== req.userId) {
+        const error = new Error('Not authenticated');
+        error.statusCode = 403;
+        throw error;
+      }
+
       const updatedPost = new Post({ ...post, title, content, imageUrl });
 
       if (imageUrl !== post.imageUrl) {
@@ -137,6 +158,8 @@ exports.updatePost = (req, res, next) => {
 exports.deletePost = (req, res, next) => {
   const { postId } = req.params;
 
+  let currentPost;
+
   Post.findById(postId)
     .then((post) => {
       if (!post) {
@@ -144,10 +167,25 @@ exports.deletePost = (req, res, next) => {
         error.statusCode = 404;
         throw error;
       }
+      if (post.creator !== req.userId) {
+        const error = new Error('Not authenticated');
+        error.statusCode = 403;
+        throw error;
+      }
 
+      currentPost = post;
       // Check user
       clearImage(post.imageUrl);
       return Post.delete(postId);
+    })
+    .then(() => {
+      return User.findById(req.userId);
+    })
+    .then((user) => {
+      return new User({
+        ...user,
+        posts: user.posts.filter((p) => p !== currentPost.id),
+      }).update();
     })
     .then(() => {
       res.status(200).json({ message: 'Post was deleted' });

@@ -1,43 +1,32 @@
 {
   "posts": [
     {
-      "id": "id_1",
-      "title": "First Post",
-      "content": "This is the first post!",
-      "imageUrl": "images/cat.jpg",
-      "creator": {
-        "name": "my-name"
-      },
-      "createdAt": "2024-04-11T06:09:18.322Z"
-    },
-    {
-      "id": "930f",
-      "title": "TITLE 2",
-      "imageUrl": "images/cat-1713191564734-665706404.jpg",
-      "content": "CONTENT 2",
-      "creator": {
-        "name": "my-name"
-      },
-      "createdAt": "2024-04-15T14:32:44.751Z"
-    },
-    {
-      "id": "85be",
-      "title": "TITLE 3",
-      "imageUrl": "images/deer-1713191573383-360552914.png",
-      "content": "CONTENT 3",
-      "creator": {
-        "name": "my-name"
-      },
-      "createdAt": "2024-04-15T14:32:53.387Z"
+      "id": "849c",
+      "title": "TITLE 1",
+      "imageUrl": "images/deer-1713360813474-559290896.png",
+      "content": "CONTENT 1",
+      "creator": "64ad",
+      "createdAt": "2024-04-17T13:33:33.499Z"
     }
   ],
   "users": [
     {
       "id": "64ad",
       "email": "email@email.com",
-      "name": "name",
+      "name": "my-name",
       "password": "$2a$12$jaBjin1cH.c8gw/kxXmmjOzc/bNNc7V/I2NYxe4QFbkyFKjL2HDRm",
-      "status": "Im new"
+      "status": "Im new",
+      "posts": [
+        "849c"
+      ]
+    },
+    {
+      "id": "e244",
+      "email": "email2@email.com",
+      "name": "my-name-2",
+      "password": "$2a$12$s/2SbJ17YmF3qqgzflQ5muO759.lKZB9maiAzARTYp0eAGlI4lcfq",
+      "status": "Im new",
+      "posts": []
     }
   ]
 }
