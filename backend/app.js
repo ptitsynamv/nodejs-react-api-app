@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const multer = require('multer');
+const { Server } = require('socket.io');
 
 const feedRoutes = require('./routes/feed');
 const authRoutes = require('./routes/auth');
@@ -51,4 +52,9 @@ app.use((err, req, res, next) => {
   res.status(statusCode).json({ message, data });
 });
 
-app.listen(8080);
+const server = app.listen(8080);
+const io = new Server(server);
+
+io.on('connection', (socket) => {
+  console.log('a user connected');
+});
