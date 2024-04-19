@@ -1,8 +1,10 @@
 const { validationResult } = require('express-validator');
 const fs = require('fs');
 const path = require('path');
+
 const Post = require('../models/post');
 const User = require('../models/user');
+const io = require('../socket');
 
 const ITEMS_PER_PAGE = 10;
 
@@ -17,8 +19,25 @@ exports.getPosts = async (req, res, next) => {
 
   try {
     const posts = await Post.fetchAll();
+    const users = await User.fetchAll();
+
+    const enrichedPosts = posts
+      .map((post) => {
+        const user = users.find((value) => value.id === post.creator);
+        return {
+          ...post,
+          creator: {
+            id: user.id,
+            name: user.name,
+          },
+        };
+      })
+      .sort((a, b) => {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      });
+
     res.status(200).json({
-      posts: getItemsForPage(posts, page),
+      posts: getItemsForPage(enrichedPosts, page),
       totalItems: posts.length,
     });
   } catch (err) {
@@ -68,6 +87,8 @@ exports.createPost = (req, res, next) => {
       return updatedUser.update();
     })
     .then((result) => {
+      io.getIO().emit('posts', { action: 'create', post: newPost });
+
       return res.status(201).json({
         post: newPost,
         creator: { id: creator.id, name: creator.name },
@@ -122,6 +143,7 @@ exports.updatePost = (req, res, next) => {
     error.statusCode = 422;
     throw error;
   }
+  let updatedPost;
 
   Post.findById(postId)
     .then((post) => {
@@ -136,14 +158,27 @@ exports.updatePost = (req, res, next) => {
         throw error;
       }
 
-      const updatedPost = new Post({ ...post, title, content, imageUrl });
+      updatedPost = new Post({ ...post, title, content, imageUrl });
 
       if (imageUrl !== post.imageUrl) {
         clearImage(post.imageUrl);
       }
       return updatedPost.update();
     })
-    .then((post) => {
+    .then(() => {
+      return User.findById(updatedPost.creator);
+    })
+    .then((creatorInfo) => {
+      const post = {
+        ...updatedPost,
+        creator: { id: creatorInfo.id, name: creatorInfo.name },
+      };
+
+      io.getIO().emit('posts', {
+        action: 'update',
+        post,
+      });
+
       res.status(200).json({ message: 'Post updated', post });
     })
     .catch((err) => {
@@ -187,6 +222,8 @@ exports.deletePost = (req, res, next) => {
       }).update();
     })
     .then(() => {
+      io.getIO().emit('posts', { action: 'delete', post: currentPost });
+
       res.status(200).json({ message: 'Post was deleted' });
     })
     .catch((err) => {

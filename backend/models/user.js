@@ -39,4 +39,12 @@ module.exports = class User {
         console.log({ err });
       });
   }
+
+  static fetchAll() {
+    return fetch('http://localhost:3001/users')
+      .then((res) => res.json())
+      .catch((err) => {
+        console.log({ err });
+      });
+  }
 };

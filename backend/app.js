@@ -53,7 +53,7 @@ app.use((err, req, res, next) => {
 });
 
 const server = app.listen(8080);
-const io = new Server(server);
+const io = require('./socket').init(server);
 
 io.on('connection', (socket) => {
   console.log('a user connected');
