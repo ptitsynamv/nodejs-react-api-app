@@ -28,7 +28,7 @@ class Feed extends Component {
         if (res.status !== 200) {
           throw new Error('Failed to fetch user status.');
         }
-        return res.json();
+        return res.text();
       })
       .then((resData) => {
         this.setState({ status: resData.status });

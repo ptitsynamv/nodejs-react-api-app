@@ -15,6 +15,14 @@
       "content": "CONTENT 2 v2",
       "creator": "64ad",
       "createdAt": "2024-04-19T12:42:12.880Z"
+    },
+    {
+      "id": "3720",
+      "title": "Title 3",
+      "imageUrl": "images/cat-1747659674106-750571069.jpg",
+      "content": "content 3 v1",
+      "creator": "b418",
+      "createdAt": "2025-05-19T13:01:14.110Z"
     }
   ],
   "users": [
@@ -36,6 +44,16 @@
       "password": "$2a$12$s/2SbJ17YmF3qqgzflQ5muO759.lKZB9maiAzARTYp0eAGlI4lcfq",
       "status": "Im new",
       "posts": []
+    },
+    {
+      "id": "b418",
+      "email": "email3@email.com",
+      "name": "name-3",
+      "password": "$2a$12$7Q8ZCNZ7Rf9MRRR1j5HJwOzElq6ETCOdFAXRHDz0YyvnYnxY3u3KC",
+      "status": "Im new",
+      "posts": [
+        "3720"
+      ]
     }
   ]
 }
